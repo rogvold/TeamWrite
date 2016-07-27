@@ -1,0 +1,144 @@
+body{
+    background-color: #F6F6F7;
+}
+
+.dz-default.dz-message{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+    height: 100%;
+    /*padding-top: 40px;*/
+    padding-top: 20px;
+}
+
+.dz-default.dz-message:hover{
+    background-color: white;
+    opacity: 0.5;
+}
+
+.dz-drag-hover{
+    background-color: #2E3C54;
+    color: white;
+}
+
+/*.ui.button.patientPrimary {*/
+    /*background-color: #424F64;*/
+    /*color: white;*/
+/*}*/
+
+/*.ui.button.patientPrimary:hover{*/
+    /*background-color: #2E3C54;*/
+/*}*/
+
+.ui.button.patientPrimary {
+    background-color: #FF9F36;
+    color: white;
+}
+
+.ui.button.patientPrimary:hover{
+    background-color: #FF9F36;
+}
+
+.topHeaderLink{
+    height: 100%;
+    box-sizing: border-box;
+    display: inline-block;
+    margin-right: 25px;
+    color: #2E3C54;
+    /*padding-top: 10px;*/
+    padding-top: 13px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.topHeaderLink:hover{
+    border-bottom: 3px solid #FC636B;
+    padding-bottom: 5px;
+}
+
+.topHeaderLink.active{
+    border-bottom: 3px solid #FC636B;
+    padding-bottom: 5px;
+}
+
+.hoverPurpleBackground:hover{
+    background-color: rgba(137, 142, 149, 0.1) !important;
+}
+
+.hoverYellowBackground:hover{
+    background-color: #FFFDE7 !important;
+}
+
+/*
+    for sport tracker
+*/
+
+.transition02s{
+    -webkit-transition-duration: 0.2s;
+    -moz-transition-duration: 0.2s;
+    -o-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+}
+
+.transition01s{
+    -webkit-transition-duration: 0.1s;
+    -moz-transition-duration: 0.1s;
+    -o-transition-duration: 0.1s;
+    transition-duration: 0.1s;
+}
+
+.my-handle{
+    width: 12px;
+    height: 12px;
+    /*border: 1px solid saddlebrown;*/
+    cursor: pointer;
+    border-radius: 1000px;
+    /*background-color: salmon;*/
+    background-image: url('https://upload.wikimedia.org/wikipedia/en/e/ec/Soccer_ball.svg');
+    position: relative;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    top: -4px;
+}
+
+.my-slider{
+    background-color: grey;
+    /*height: 14px;*/
+    height: 6px;
+    background-color: #fffcf0;
+    border-radius: 100px;
+    border: 1px solid #bab8bd;
+    cursor: pointer;
+}
+
+.hoverOpacity08:hover{
+    opacity: 0.8;
+}
+
+/*teamwrite*/
+
+.teamWriteTemplate{
+
+}
+
+.teamWriteTemplate .leftSidebar{
+
+}
+
+.teamWriteTemplate .leftSidebar .leftLink:hover{
+    border-left: 3px solid rgb(255, 159, 54) !important;
+    background-color: #455167;
+}
+
+.teamWriteTemplate .leftSidebar .leftLink:hover i, .teamWriteTemplate .leftSidebar .leftLink.active i{
+    color: rgb(255, 159, 54) !important;
+}
+
+.teamWriteTemplate .leftSidebar .leftLink.active{
+    border-left: 3px solid rgb(255, 159, 54) !important;
+}
+

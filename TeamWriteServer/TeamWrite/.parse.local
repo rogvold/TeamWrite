@@ -1,0 +1,10 @@
+{
+  "applications": {
+    "TeamWrite": {
+      "applicationId": "2AEgsOpcjit5KuDLsUwytNXlwN3mvGBJ05YmdcZ7"
+    },
+    "_default": {
+      "link": "TeamWrite"
+    }
+  }
+}
