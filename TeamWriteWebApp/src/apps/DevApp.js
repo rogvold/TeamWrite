@@ -21,6 +21,16 @@ var UserAPI = require('../api/UserAPI');
 
 var DraftPanel = require('../components/editor/DraftPanel');
 
+var EditPostForm = require('../components/posts/forms/EditPostForm');
+
+var GraphicPanel = require('../components/graph/GraphicPanel');
+var TransparentLinePlot = require('../components/graph/TransparentLinePlot');
+var ColoredPlotPanel = require('../components/graph/ColoredPlotPanel');
+
+var QuizCardsList = require('../components/english/belka/prepare/QuizCardsList');
+
+var CoolTopTemplate = require('../components/templates/cool/CoolTopTemplate');
+
 var DevApp = React.createClass({
     mixins: [FluxMixin],
 
@@ -48,12 +58,7 @@ var DevApp = React.createClass({
         return (
             <div>
 
-                <div style={{width: 960, margin: '0 auto', paddingTop: 20}} >
-
-                    <DraftPanel />
-
-                </div>
-
+                <CoolTopTemplate />
 
             </div>
         );

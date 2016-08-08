@@ -22,6 +22,7 @@ var UserIndexApp = require('./user/UserIndexApp');
 var MessagesApp = require('./user/MessagesApp');
 var NotificationsApp = require('./user/NotificationsApp');
 var AllProjectsApp = require('./user/AllProjectsApp');
+var ProjectApp = require('./user/ProjectApp');
 
 var DevApp = require('./DevApp');
 
@@ -34,12 +35,15 @@ var FluxMixin = Fluxxor.FluxMixin(React);
 // stores
 var UsersStore = require('../flux/stores/UsersStore');
 var ProjectsStore = require('../flux/stores/ProjectsStore');
+var CommentsStore = require('../flux/stores/CommentsStore');
 // actions
 var UsersActions = require('../flux/actions/UsersActions');
 var ProjectsActions = require('../flux/actions/ProjectsActions');
+var CommentsActions = require('../flux/actions/CommentsActions');
+var PostsActions = require('../flux/actions/PostsActions');
 
-var stores = {UsersStore: new UsersStore(), ProjectsStore: new ProjectsStore()};
-var actions = assign({}, UsersActions, ProjectsActions);
+var stores = {UsersStore: new UsersStore(), ProjectsStore: new ProjectsStore(), CommentsStore: new CommentsStore()};
+var actions = assign({}, UsersActions, ProjectsActions, CommentsActions, PostsActions);
 var flux = new Fluxxor.Flux(stores, actions);
 
 //api
@@ -47,6 +51,8 @@ var UserAPI = require('../api/UserAPI');
 
 //components
 //var AlertsComponent = require('../components/alert/AlertsComponent');
+
+var BootstrapComponent = require('../components/bootstrap/BootstrapComponent');
 
 flux.on("dispatch", function(type, payload) {
     if (console && console.log) {
@@ -90,9 +96,11 @@ var App = React.createClass({
     getGuestRoute: function(){
         return (
             <Router createElement={this.createFluxComponent} history={createHashHistory({queryKey: false})}>
-                <Route useAutoKeys={false} path="/" component={LoginApp} >
-                    <IndexRoute component={LoginApp} />
+                <Route useAutoKeys={false} path="/" component={UserIndexApp} >
+                    <IndexRoute component={UserIndexApp} />
                 </Route>
+
+                <Route path="/project/:projectId" component={ProjectApp}/>
 
                 <Route path="/login" component={LoginApp}>
                     <IndexRoute component={LoginApp} />
@@ -110,6 +118,7 @@ var App = React.createClass({
 
         return (
             <Router createElement={this.createFluxComponent} history={createHashHistory({queryKey: false})}>
+
                 <Route useAutoKeys={false} path="/" component={UserIndexApp} >
                     <IndexRoute component={UserIndexApp} />
                 </Route>
@@ -125,6 +134,8 @@ var App = React.createClass({
                 <Route path="/projects" component={AllProjectsApp}>
                     <IndexRoute component={AllProjectsApp} />
                 </Route>
+
+                <Route path="/project/:projectId" component={ProjectApp}/>
 
 
                 <Route path="/dev" component={DevApp}>
@@ -157,6 +168,9 @@ var App = React.createClass({
         return (
             <div>
                 {content}
+
+                <BootstrapComponent />
+
             </div>
         );
     }

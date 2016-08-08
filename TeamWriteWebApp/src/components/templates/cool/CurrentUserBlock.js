@@ -11,6 +11,8 @@ var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var BackgroundImageContainer = require('../../image/BackgroundImageContainer');
 
+var UpdateUserWrapper = require('../../profile/panels/UpdateUserWrapper');
+
 var CurrentUserBlock = React.createClass({
     mixins: [FluxMixin, StoreWatchMixin('UsersStore')],
     getDefaultProps: function(){
@@ -48,7 +50,9 @@ var CurrentUserBlock = React.createClass({
         },
 
         avatarPlaceholder: {
-
+            position: 'relative',
+            width: 100,
+            margin: '0 auto'
         },
 
         avatar: {
@@ -57,6 +61,22 @@ var CurrentUserBlock = React.createClass({
             borderRadius: 3000,
             margin: '0 auto'
             //border: '2px solid white'
+        },
+
+        settingsPlaceholder: {
+            position: 'absolute',
+            bottom: 0,
+            right: 0,
+            padding: 5,
+            paddingRight: 6,
+            //backgroundColor: '#E9EBED',
+            backgroundColor: 'rgb(46, 60, 84)',
+            borderRadius: 1000,
+            cursor: 'pointer',
+            //border: '1px solid #2E3C54',
+            border: '1px solid #E9EBED',
+            color: '#E9EBED',
+            zIndex: 10
         },
 
         namePlaceholder: {
@@ -74,7 +94,7 @@ var CurrentUserBlock = React.createClass({
 
         var ava = (user == undefined) ? undefined : user.avatar;
         if (ava == undefined){
-            ava = 'https://avatars2.githubusercontent.com/u/1834389?v=3&s=460';
+            ava = 'assets/images/noavatar.jpeg';
         }
 
         return (
@@ -92,6 +112,14 @@ var CurrentUserBlock = React.createClass({
                                 <BackgroundImageContainer
                                     image={ava}
                                     style={{borderRadius: 3000}} />
+                            </div>
+
+                            <div style={this.componentStyle.settingsPlaceholder}>
+                                <div>
+                                    <UpdateUserWrapper >
+                                        <i className={'icon settings'} style={{marginRight: 0}} ></i>
+                                    </UpdateUserWrapper>
+                                </div>
                             </div>
 
                         </div>

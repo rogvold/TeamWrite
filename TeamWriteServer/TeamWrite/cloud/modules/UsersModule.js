@@ -17,6 +17,8 @@ var UsersModule = {
             email: u.get('email'),
             firstName: u.get('firstName'),
             lastName: u.get('lastName'),
+            education: u.get('education'),
+            about: u.get('about'),
             phone: u.get('phone'),
             organizationId: u.get('organizationId'),
             birthdayTimestamp: new Date(u.get('birthdayTimestamp')).getTime(),
@@ -126,12 +128,12 @@ var UsersModule = {
             error({code: ECR.INCORRECT_INPUT_DATA.code, message: 'data is not defined'});
             return;
         }
-        if (data.userId == undefined){
-            error({code: ECR.INCORRECT_INPUT_DATA.code, message: 'userId is not defined'});
+        if (data.id == undefined){
+            error({code: ECR.INCORRECT_INPUT_DATA.code, message: 'id is not defined'});
             return;
         }
         var self = this;
-        this.loadUser(data.userId, function(u){
+        this.loadUser(data.id, function(u){
             for (var key in data){
                 if (key == 'userId'){
                     continue;
@@ -144,48 +146,45 @@ var UsersModule = {
         }, function(){});
     },
 
-    loadAllOrganizationUsers: function(orgId, callback){
+    loadUsersByIds: function(data, success, error){
+        if (data == undefined){
+            error({code: ECR.INCORRECT_INPUT_DATA.code, message: 'data is not defined'});
+            return;
+        }
+        if (data.usersIds == undefined){
+            error({code: ECR.INCORRECT_INPUT_DATA.code, message: 'usersIds is not defined'});
+            return;
+        }
+        var usersIds = data.usersIds;
+        if (usersIds == undefined || usersIds.length == 0){
+            success([]);
+            return;
+        }
+
         var q = new Parse.Query(Parse.User);
         q.limit(1000);
-        q.equalTo('organizationId', orgId);
+        q.containedIn('objectId', usersIds);
         var self = this;
         q.find(function(results){
             if (results == undefined){
                 results = [];
             }
             results = results.map(function(r){return self.transformUser(r)});
-            var users = [];
-            var trainers = [];
-            for (var i in results){
-                var us = results[i];
-                if (us.userRole == 'trainer'){
-                    trainers.push(us);
-                }
-                if (us.userRole == 'user'){
-                    users.push(us);
-                }
-            }
-            callback({
-                users: users,
-                trainers: trainers
-            });
+            success(results);
         });
     },
 
-    loadRoledOrganizationUsers: function(orgId, userRole, callback, shouldTransform){
-        var q = new Parse.Query(Parse.User);
-        q.limit(1000);
-        q.equalTo('organizationId', orgId);
-        q.equalTo('userRole', userRole);
-        var self = this;
-        q.find(function(results){
-            if (results == undefined){
-                results = [];
+    loadUsersMap: function(usersIds, callback){
+        if (usersIds == undefined || usersIds.length == 0){
+            callback({});
+            return;
+        }
+        this.loadUsersByIds({usersIds: usersIds}, function(users){
+            var map = {};
+            for (var i in users){
+                map[users[i].id] = users[i];
             }
-            if (shouldTransform == true){
-                results = results.map(function(r){self.transformUser(r)});
-            }
-            callback(results);
+            callback(map);
         });
     }
 

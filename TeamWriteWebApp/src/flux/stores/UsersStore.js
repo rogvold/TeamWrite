@@ -214,6 +214,19 @@ var UsersStore = Fluxxor.createStore({
             }
         }
         return arr;
+    },
+
+    silentlyConsumeUsers: function(users){
+        console.log('silentlyConsumeUsers occured: users = ', users);
+        if (users == undefined){
+            users = [];
+        }
+        for (var i in users){
+            if (users[i] == undefined){
+                continue;
+            }
+            this.usersMap[users[i].id] = users[i];
+        }
     }
 
 });

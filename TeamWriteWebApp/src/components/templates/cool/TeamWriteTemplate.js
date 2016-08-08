@@ -24,7 +24,7 @@ var TeamWriteTemplate = React.createClass({
     getDefaultProps: function(){
         return {
 
-            activeName: 'myProjects',
+            activeName: undefined,
 
             logo: 'assets/images/teamwrite_logo.png',
             content: undefined,
@@ -122,7 +122,12 @@ var TeamWriteTemplate = React.createClass({
             marginLeft: 3
         },
 
-
+        newProjectPlaceholder: {
+            borderTop: '1px solid rgba(103, 109, 118, 0.18)',
+            //textAlign: 'center',
+            padding: 14,
+            display: 'none'
+        },
 
         leftLink: {
             padding: 10,
@@ -132,7 +137,8 @@ var TeamWriteTemplate = React.createClass({
             cursor: 'pointer',
             color: 'white',
             opacity: 0.8,
-            marginBottom: 5
+            //marginBottom: 5
+            marginBottom: 0
         },
 
         userBlock: {
@@ -178,28 +184,29 @@ var TeamWriteTemplate = React.createClass({
     getLinksContent: function(){
         var links = [{
                         name: 'myProjects',
-                        displayName: 'Мои проекты',
-                        icon: 'icon star',
-                        url: '/'
-                    },
-                    {
-                        name: 'allProjects',
-                        displayName: 'Все проекты',
+                        displayName: 'Проекты',
+                        //icon: 'icon star',
                         icon: 'icon book',
-                        url: '/projects'
-                    },
-                    {
-                        name: 'messages',
-                        displayName: 'Сообщения',
-                        icon: 'icon mail outline',
-                        url: '/messages'
-                    },
-                    {
-                        name: 'notifications',
-                        displayName: 'Уведомления',
-                        icon: 'icon alarm outline',
-                        url: '/notifications'
+                        url: '/'
                     }
+                    //{
+                    //    name: 'allProjects',
+                    //    displayName: 'Все проекты',
+                    //    icon: 'icon book',
+                    //    url: '/projects'
+                    //},
+                    //{
+                    //    name: 'messages',
+                    //    displayName: 'Сообщения',
+                    //    icon: 'icon mail outline',
+                    //    url: '/messages'
+                    //},
+                    //{
+                    //    name: 'notifications',
+                    //    displayName: 'Уведомления',
+                    //    icon: 'icon alarm outline',
+                    //    url: '/notifications'
+                    //}
         ];
         var res = links.map(function(l, k){
             var key = 'Left_link_' + k;
@@ -208,14 +215,23 @@ var TeamWriteTemplate = React.createClass({
             var onClick = this.onLinkClick.bind(this, l.url);
 
             return (
-                <div key={key} style={this.componentStyle.leftLink} onClick={onClick}
-                                                                    className={'leftLink ' + cl} >
+                <div key={key}
+                     style={this.componentStyle.leftLink}
+                     onClick={onClick}
+                     className={'leftLink ' + cl} >
+
                     <i className={l.icon} ></i> {l.displayName}
                 </div>
             );
 
         }, this);
         return res;
+    },
+
+    onLogoutClick: function(){
+        UserAPI.logOut(function(){
+            window.location.reload();
+        });
     },
 
 
@@ -235,8 +251,8 @@ var TeamWriteTemplate = React.createClass({
                         </div>
 
                         <div style={this.componentStyle.logoName}>
-                            <span style={{color: '#939598'}} >Team</span>
-                            <span style={{color: '#FF9F36'}} >Write</span>
+                            <span style={{color: '#939598'}} >Co</span>
+                            <span style={{color: '#FF9F36'}} >Avtor</span>
                         </div>
 
                     </div>
@@ -245,12 +261,20 @@ var TeamWriteTemplate = React.createClass({
                         <CurrentUserBlock />
                     </div>
 
+
                     <div style={this.componentStyle.leftLinksPlaceholder}>
                         {this.getLinksContent()}
                     </div>
 
+                    <div style={this.componentStyle.newProjectPlaceholder}>
+                        <button className={'ui patientPrimary button circular'} >
+                            <i className={'icon plus'} ></i> Создать проект
+                        </button>
+                    </div>
+
                     <div style={this.componentStyle.bottomLeftPlaceholder}>
-                        <div style={assign({}, this.componentStyle.leftLink, {marginBottom: 0})}>
+                        <div style={assign({}, this.componentStyle.leftLink, {marginBottom: 0})}
+                                onClick={this.onLogoutClick} >
                             <i className={'icon sign out'} ></i> Выход
                         </div>
                     </div>

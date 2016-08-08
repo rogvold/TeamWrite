@@ -67,7 +67,7 @@ var LoginApp = React.createClass({
 
                 <div style={this.componentStyle.topBlock} >
                     <img style={this.componentStyle.logo}
-                         src={'assets/images/teamwrite_logo.png'} />
+                         src={'https://s3.amazonaws.com/buildit-storage/webapp/interface/logo.svg'} />
 
                 </div>
 

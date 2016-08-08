@@ -66,7 +66,7 @@ var SignupForm = React.createClass({
     componentStyle: {
         placeholder: {
             padding: 5,
-            width: 250,
+            width: 280,
             margin: '0 auto'
         },
 

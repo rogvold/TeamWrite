@@ -13,6 +13,10 @@ var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 var CoolPreloader = require('../../components/preloader/CoolPreloader');
 
 var TeamWriteTemplate = require('../../components/templates/cool/TeamWriteTemplate');
+var CoolTopTemplate = require('../../components/templates/cool/CoolTopTemplate');
+
+var UserProjectsPanel = require('../../components/projects/panels/UserProjectsPanel');
+var ProjectsTabsPanel = require('../../components/projects/panels/ProjectsTabsPanel');
 
 var UserIndexApp = React.createClass({
     mixins: [FluxMixin, StoreWatchMixin('UsersStore')],
@@ -47,6 +51,9 @@ var UserIndexApp = React.createClass({
     componentDidMount: function(){
         var user = this.getFlux().store('UsersStore').getCurrentUser();
         console.log('UserIndexApp: componentDidMount occured');
+        if (this.getFlux().store('UsersStore').getCurrentUserId() == undefined){
+            return;
+        }
         if (user == undefined){
             try{
                 this.getFlux().actions.loadUser(this.getFlux().store('UsersStore').getCurrentUserId());
@@ -71,7 +78,7 @@ var UserIndexApp = React.createClass({
         return (
             <div style={this.componentStyle.placeholder} >
 
-                My projects
+                <ProjectsTabsPanel />
 
             </div>
         );
@@ -84,7 +91,7 @@ var UserIndexApp = React.createClass({
         return (
             <div style={this.componentStyle.placeholder} >
 
-                <TeamWriteTemplate
+                <CoolTopTemplate
                     content={this.getContent()}
                     activeName={'myProjects'} />
 

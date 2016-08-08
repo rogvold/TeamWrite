@@ -48,17 +48,26 @@ var UsersActions = {
         }
         var self = this;
         this.dispatch(constants.LOAD_USERS_BY_IDS, {ids: arrIds});
-        UserAPI.loadUsersByIdsList(arrIds, function(users){
+        ParseAPI.runCloudFunction("loadUsersByIds", {usersIds: arrIds}, function(users){
             this.dispatch(constants.LOAD_USERS_BY_IDS_SUCCESS, {users: users});
         }.bind(this));
+        //UserAPI.loadUsersByIdsList(arrIds, function(users){
+        //    this.dispatch(constants.LOAD_USERS_BY_IDS_SUCCESS, {users: users});
+        //}.bind(this));
     },
 
-    updateUser: function(data){
+    updateUser: function(data, callback){
         if (data == undefined){
             return;
         }
+        data.id = this.flux.store('UsersStore').getCurrentUserId();
         this.dispatch(constants.UPDATE_USER, {});
         ParseAPI.runCloudFunction('updateUser', data, function(updatedUser){
+            if (callback != undefined){
+                setTimeout(function(){
+                    callback();
+                }, 10);
+            }
             this.dispatch(constants.UPDATE_USER_SUCCESS, {user: updatedUser});
         }.bind(this), function(err){
             this.dispatch(constants.UPDATE_USER_FAIL, {errorMessage: err.message});

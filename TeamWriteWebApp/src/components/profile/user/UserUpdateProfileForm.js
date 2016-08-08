@@ -12,6 +12,11 @@ var UserUpdateProfileForm = React.createClass({
             lastName: undefined,
             phone: undefined,
 
+            avatar: undefined,
+
+            about: undefined,
+            education: undefined,
+
             onSubmit: function(data){
 
             }

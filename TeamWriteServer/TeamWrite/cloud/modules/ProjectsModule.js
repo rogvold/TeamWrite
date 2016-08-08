@@ -4,6 +4,9 @@
 
 var ECR = require('cloud/helpers/ErrorCodesRegistry');
 var CommonHelper = require('cloud/helpers/CommonHelper');
+var UsersProjectsModule = require('cloud/modules/UsersProjectsModule');
+var UsersModule = require('cloud/modules/UsersModule');
+var PostsModule = require('cloud/modules/PostsModule');
 
 var ProjectsModule = {
 
@@ -17,8 +20,10 @@ var ProjectsModule = {
             creatorId: p.get('creatorId'),
             name: p.get('name'),
             description: p.get('description'),
+            about: p.get('about'),
             avatar: p.get('avatar'),
             access: p.get('access'),
+            status: p.get('status'),
             deleted: p.get('deleted'),
             tags: (p.get('tags') == undefined) ? [] : p.get('tags')
         }
@@ -56,8 +61,15 @@ var ProjectsModule = {
             if (results == undefined){
                 results = [];
             }
-            var arr = results.map(function(r){return self.transformProject(r)});
-            success(arr);
+            var projects = results.map(function(r){return self.transformProject(r)});
+            var ids = projects.map(function(r){return r.id});
+            UsersProjectsModule.loadProjectsLinksMap(ids, function(map){
+                for (var i in projects){
+                    projects[i].links = map[projects[i].id];
+                }
+                success(projects);
+            });
+
         });
     },
 
@@ -78,6 +90,41 @@ var ProjectsModule = {
                 callback(undefined);
             }
         });
+    },
+
+    loadProjectAPISafe: function(data, success, error){
+        if (data == undefined){
+            error({code: ECR.INCORRECT_INPUT_DATA.code, message: 'data is not defined'});
+            return;
+        }
+        if (data.id == undefined){
+            error({code: ECR.INCORRECT_INPUT_DATA.code, message: 'id is not defined'});
+            return;
+        }
+        var self = this;
+        this.loadProject(data.id, function(p){
+            UsersProjectsModule.loadProjectLinks(data.id, function(links){
+                var usersIds = links.map(function(r){return r.userId});
+                usersIds.push(p.creatorId);
+                UsersModule.loadUsersMap(usersIds, function(usersMap){
+                    p.creator = usersMap[p.creatorId];
+                    var lnks = [];
+                    for (var i in links){
+                        var l = links[i];
+                        l.user = usersMap[l.userId];
+                        lnks.push(l);
+                    }
+                    p.links = lnks;
+                    PostsModule.loadProjectPosts({projectId: p.id}, function(posts){
+                        p.posts = posts;
+                        success(p);
+                    }, function(err){error(err)})
+
+                }, function(err){
+                    error(err);
+                });
+            }, true);
+        }, true);
     },
 
     createProject: function(data, success, error){
@@ -104,6 +151,8 @@ var ProjectsModule = {
         p.set('name', data.name);
         p.set('description', data.description);
         p.set('deleted', false);
+        p.set('status', 'new');
+
         if (data.avatar != undefined){
             p.set('avatar', data.avatar);
         }
@@ -112,6 +161,9 @@ var ProjectsModule = {
         }
         if (data.tags != undefined){
             p.set('tags', data.tags);
+        }
+        if (data.about != undefined){
+            p.set('about', data.about);
         }
         var self = this;
         p.save().then(function(savedProject){

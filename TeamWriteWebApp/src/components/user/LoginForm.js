@@ -42,7 +42,7 @@ var LoginForm = React.createClass({
     componentStyle: {
         placeholder: {
             padding: 5,
-            width: 250,
+            width: 280,
             margin: '0 auto'
         },
 
@@ -154,9 +154,11 @@ var LoginForm = React.createClass({
         return (
             <div style={this.componentStyle.placeholder}>
 
-                <div style={this.componentStyle.namePlaceholder} >
-                    {this.props.formName}
-                </div>
+                {this.props.formName == undefined || this.props.formName.trim() == '' ? null :
+                    <div style={this.componentStyle.namePlaceholder} >
+                        {this.props.formName}
+                    </div>
+                }
 
                 <div style={this.componentStyle.inputsPlaceholder} className={'ui form'}>
                     <div style={this.componentStyle.emailPlaceholder} className={'field'}>

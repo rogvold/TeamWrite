@@ -9,7 +9,8 @@ var BackgroundImageContainer = React.createClass({
     getDefaultProps: function () {
         return {
             //image: undefined,
-            image: 'http://www.englishpatient.org/app/assets/images/new_course.png',
+            image: 'https://www.englishpatientdrive.pw/dropzone/uploads/5b7RIQs8ETFfqOwAyb9G.jpg',
+            //image: 'http://www.englishpatient.org/app/assets/images/new_course.png',
             //image: 'https://avatars2.githubusercontent.com/u/1834389?v=3&s=460',
 
             style: {
